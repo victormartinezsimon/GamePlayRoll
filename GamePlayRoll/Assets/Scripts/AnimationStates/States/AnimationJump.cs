@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AnimationJump : AnimationState {
 
-  public AnimationJump(AnimationController c) : base(c) { }
+  public AnimationJump(PlayerController c) : base(c) { }
 
   public override string GetTriggerName()
   {
@@ -12,9 +12,9 @@ public class AnimationJump : AnimationState {
 
   public override void Manage()
   {
-    if(_controller.InGround())
+    if(_controller.InGround)
     {
-      _controller.ChangeState(AnimationController.AnimationStates.IDLE);
+      _controller.ChangeState(PlayerController.AnimationStates.IDLE);
     }
   }
 }

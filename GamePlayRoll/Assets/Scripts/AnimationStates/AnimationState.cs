@@ -6,9 +6,9 @@ public abstract class AnimationState {
   public abstract string GetTriggerName();
   public abstract void Manage();
 
-  protected AnimationController _controller;
+  protected PlayerController _controller;
 
-  public AnimationState(AnimationController controller)
+  public AnimationState(PlayerController controller)
   {
     this._controller = controller;
   }

@@ -4,7 +4,7 @@ using System;
 
 public class AnimationIdle : AnimationState
 {
-  public AnimationIdle(AnimationController c) : base(c) { }
+  public AnimationIdle(PlayerController c) : base(c) { }
 
   public override string GetTriggerName()
   {
@@ -13,28 +13,28 @@ public class AnimationIdle : AnimationState
 
   public override void Manage()
   {
-    if(Input.GetButton("Right" + _controller.GetPlayerID()) || Input.GetButton("Left" + _controller.GetPlayerID()))
+    if(Input.GetButton("Right" + _controller.GetPlayerID) || Input.GetButton("Left" + _controller.GetPlayerID))
     {
-      if(Input.GetButton("Run" + _controller.GetPlayerID()))
+      if(Input.GetButton("Run" + _controller.GetPlayerID))
       {
-        _controller.ChangeState(AnimationController.AnimationStates.RUN);
+        _controller.ChangeState(PlayerController.AnimationStates.RUN);
       }
       else
       {
-        _controller.ChangeState(AnimationController.AnimationStates.WALK);
+        _controller.ChangeState(PlayerController.AnimationStates.WALK);
       }
       return;
     }
     
-    if(Input.GetButton("Jump" + _controller.GetPlayerID()))
+    if(Input.GetButton("Jump" + _controller.GetPlayerID))
     {
-      _controller.ChangeState(AnimationController.AnimationStates.JUMP);
+      _controller.ChangeState(PlayerController.AnimationStates.JUMP);
       return;
     }
 
-    if (Input.GetButton("Up" + _controller.GetPlayerID()) && _controller.InLadder())
+    if (Input.GetButton("Up" + _controller.GetPlayerID) && _controller.LadderTouch)
     {
-      _controller.ChangeState(AnimationController.AnimationStates.CLIMB);
+      _controller.ChangeState(PlayerController.AnimationStates.CLIMB);
       return;
     }
     

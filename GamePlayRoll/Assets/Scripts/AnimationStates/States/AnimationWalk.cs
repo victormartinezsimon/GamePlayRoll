@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AnimationWalk : AnimationState
 {
-  public AnimationWalk(AnimationController c) : base(c) { }
+  public AnimationWalk(PlayerController c) : base(c) { }
 
   public override string GetTriggerName()
   {
@@ -12,21 +12,21 @@ public class AnimationWalk : AnimationState
 
   public override void Manage()
   {
-    if (Input.GetButton("Run" + _controller.GetPlayerID()))
+    if (Input.GetButton("Run" + _controller.GetPlayerID))
     {
-      _controller.ChangeState(AnimationController.AnimationStates.RUN);
+      _controller.ChangeState(PlayerController.AnimationStates.RUN);
       return;
     }
 
-    if (Input.GetButton("Jump" + _controller.GetPlayerID()))
+    if (Input.GetButton("Jump" + _controller.GetPlayerID))
     {
-      _controller.ChangeState(AnimationController.AnimationStates.JUMP);
+      _controller.ChangeState(PlayerController.AnimationStates.JUMP);
       return;
     }
-    if (Input.GetButton("Left" + _controller.GetPlayerID()) || Input.GetButton("Right" + _controller.GetPlayerID()))
+    if (Input.GetButton("Left" + _controller.GetPlayerID) || Input.GetButton("Right" + _controller.GetPlayerID))
     {
       return;
     }
-      _controller.ChangeState(AnimationController.AnimationStates.IDLE);
+      _controller.ChangeState(PlayerController.AnimationStates.IDLE);
   }
 }
