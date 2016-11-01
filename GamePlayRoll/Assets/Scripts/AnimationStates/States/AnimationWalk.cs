@@ -12,12 +12,6 @@ public class AnimationWalk : AnimationState
 
   public override void Manage()
   {
-    if (Input.GetButton("Run" + _controller.GetPlayerID))
-    {
-      _controller.ChangeState(PlayerController.AnimationStates.RUN);
-      return;
-    }
-
     if (Input.GetButton("Jump" + _controller.GetPlayerID))
     {
       _controller.ChangeState(PlayerController.AnimationStates.JUMP);

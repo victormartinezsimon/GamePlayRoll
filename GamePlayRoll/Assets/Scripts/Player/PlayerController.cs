@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
 
-  public enum AnimationStates { IDLE, WALK, RUN, CLIMB, CLIMBIDLE, JUMP }
+  public enum AnimationStates { IDLE, WALK, CLIMB, CLIMBIDLE, JUMP }
   private AnimationStates _actualStateEnum;
   private AnimationState _actualStateInstance;
 
@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
   private Animator _animator;
   private PlayerData _playerData;
   private Rigidbody2D _rigidbody;
+  private SpriteRenderer _spriteRenderer;
+
+  public bool jumping = true;
 
   public bool InGround
   {
@@ -37,47 +40,49 @@ public class PlayerController : MonoBehaviour
     _animator = GetComponent<Animator>();
     _playerData = GetComponent<PlayerData>();
     _rigidbody = GetComponent<Rigidbody2D>();
+    _spriteRenderer = GetComponent<SpriteRenderer>();
     _actualStateInstance = BuildState(AnimationStates.IDLE);
   }
 
   void Update()
   {
     _actualStateInstance.Manage();
+  }
+
+  void FixedUpdate()
+  {
     AddForces();
+    Debug.Log("the force is => " + _rigidbody.velocity.x + "," + _rigidbody.velocity.y);
   }
 
   private void AddForces()
   {
     if(_actualStateEnum == AnimationStates.JUMP)
     {
+      if(!jumping)
+      {
+        _rigidbody.velocity = (new Vector2(_rigidbody.velocity.x, _playerData.ForceJumpY));
+        jumping = true;
+      }
       return;
     }
-    if(_actualStateEnum == AnimationStates.IDLE)
+    jumping = false;
+    if (_actualStateEnum == AnimationStates.IDLE)
     {
-      _rigidbody.
+      _rigidbody.velocity = new Vector2(0, _rigidbody.velocity.y);
       return;
     }
     if(_actualStateEnum == AnimationStates.WALK)
     {
       if(Input.GetButton("Left" + GetPlayerID))
       {
-        _rigidbody.AddForce(new Vector2(-1 ,0) * _playerData.ForceWalkX, ForceMode2D.Force);
+        _spriteRenderer.flipX = true;
+        _rigidbody.velocity = new Vector2(-_playerData.ForceWalkX, _rigidbody.velocity.y);
       }
       if (Input.GetButton("Right" + GetPlayerID))
       {
-        _rigidbody.AddForce(new Vector2(1, 0) * _playerData.ForceWalkX, ForceMode2D.Force);
-      }
-    }
-
-    if (_actualStateEnum == AnimationStates.RUN)
-    {
-      if (Input.GetButton("Left" + GetPlayerID))
-      {
-        _rigidbody.AddForce(new Vector2(-1, 0) * _playerData.ForceRunX, ForceMode2D.Force);
-      }
-      if (Input.GetButton("Right" + GetPlayerID))
-      {
-        _rigidbody.AddForce(new Vector2(1, 0) * _playerData.ForceRunX, ForceMode2D.Force);
+        _spriteRenderer.flipX = false;
+        _rigidbody.velocity = new Vector2(_playerData.ForceWalkX, _rigidbody.velocity.y);
       }
     }
 
@@ -85,16 +90,13 @@ public class PlayerController : MonoBehaviour
     {
       if (Input.GetButton("Up" + GetPlayerID))
       {
-        _rigidbody.AddForce(new Vector2(0, 1) * _playerData.ForceClimbY, ForceMode2D.Force);
+        _rigidbody.velocity = new Vector2(0, _playerData.ForceClimbY);
       }
       if (Input.GetButton("Down" + GetPlayerID))
       {
-        _rigidbody.AddForce(new Vector2(0, -1) * _playerData.ForceClimbY, ForceMode2D.Force);
+        _rigidbody.velocity = new Vector2(0, - _playerData.ForceClimbY);
       }
     }
-
-    //TODO add the rest of the forces
-
   }
 
   public void ChangeState(AnimationStates state)
@@ -123,7 +125,6 @@ public class PlayerController : MonoBehaviour
     {
       case AnimationStates.IDLE: return new AnimationIdle(this);
       case AnimationStates.WALK: return new AnimationWalk(this);
-      case AnimationStates.RUN: return new AnimationRun(this);
       case AnimationStates.JUMP: return new AnimationJump(this);
       case AnimationStates.CLIMBIDLE: return new AnimationClimbIdle(this);
       case AnimationStates.CLIMB: return new AnimationClimb(this);
@@ -137,7 +138,6 @@ public class PlayerController : MonoBehaviour
     {
       case AnimationStates.IDLE: InGround = true; break;
       case AnimationStates.WALK: InGround = true; break;
-      case AnimationStates.RUN: InGround = true; break;
       case AnimationStates.CLIMB: InGround = false; break;
       case AnimationStates.CLIMBIDLE: InGround = false; break;
       case AnimationStates.JUMP: InGround = false; break;

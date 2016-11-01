@@ -15,14 +15,7 @@ public class AnimationIdle : AnimationState
   {
     if(Input.GetButton("Right" + _controller.GetPlayerID) || Input.GetButton("Left" + _controller.GetPlayerID))
     {
-      if(Input.GetButton("Run" + _controller.GetPlayerID))
-      {
-        _controller.ChangeState(PlayerController.AnimationStates.RUN);
-      }
-      else
-      {
-        _controller.ChangeState(PlayerController.AnimationStates.WALK);
-      }
+      _controller.ChangeState(PlayerController.AnimationStates.WALK);
       return;
     }
     
