@@ -28,4 +28,12 @@ public class AnimationClimbIdle : AnimationState {
       _controller.ChangeState(PlayerController.AnimationStates.WALK);
     }
   }
+  public override void OnEnter()
+  {
+    _controller.Rigidbody.isKinematic = true;
+  }
+  public override void OnExit()
+  {
+    _controller.Rigidbody.isKinematic = false;
+  }
 }

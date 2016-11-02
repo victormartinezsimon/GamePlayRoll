@@ -35,6 +35,11 @@ public class PlayerController : MonoBehaviour
     get { return _PlayerID; }
   }
 
+  public Rigidbody2D Rigidbody
+  {
+    get { return _rigidbody; }
+  }
+
   void Start()
   {
     _animator = GetComponent<Animator>();
@@ -52,7 +57,6 @@ public class PlayerController : MonoBehaviour
   void FixedUpdate()
   {
     AddForces();
-    Debug.Log("the force is => " + _rigidbody.velocity.x + "," + _rigidbody.velocity.y);
   }
 
   private void AddForces()
@@ -90,22 +94,23 @@ public class PlayerController : MonoBehaviour
     {
       if (Input.GetButton("Up" + GetPlayerID))
       {
-        _rigidbody.velocity = new Vector2(0, _playerData.ForceClimbY);
+        transform.position += Vector3.up * _playerData.ForceClimbY * Time.deltaTime;
       }
       if (Input.GetButton("Down" + GetPlayerID))
       {
-        _rigidbody.velocity = new Vector2(0, - _playerData.ForceClimbY);
+        transform.position += Vector3.down * _playerData.ForceClimbY * Time.deltaTime;
       }
     }
   }
 
   public void ChangeState(AnimationStates state)
   {
-    Debug.Log("change state to => " + state.ToString());
     if(_actualStateEnum != state)
     {
       _actualStateEnum = state;
+      _actualStateInstance.OnExit();
       _actualStateInstance = BuildState(state);
+      _actualStateInstance.OnEnter();
       _animator.SetTrigger(_actualStateInstance.GetTriggerName());
       UpdateMovementValues();
     }
@@ -116,6 +121,14 @@ public class PlayerController : MonoBehaviour
     if(_actualStateEnum == AnimationStates.CLIMB)
     {
       ChangeState(AnimationStates.CLIMBIDLE);
+    }
+  }
+
+  public void OnLadderExit()
+  {
+    if(_actualStateEnum == AnimationStates.CLIMB || _actualStateEnum == AnimationStates.CLIMBIDLE)
+    {
+      ChangeState(AnimationStates.IDLE);
     }
   }
 

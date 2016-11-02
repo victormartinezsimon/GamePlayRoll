@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AnimationClimb : AnimationState {
+public class AnimationClimb : AnimationState
+{
 
   public AnimationClimb(PlayerController c) : base(c) { }
 
@@ -26,5 +27,14 @@ public class AnimationClimb : AnimationState {
     {
       _controller.ChangeState(PlayerController.AnimationStates.WALK);
     }
+  }
+
+  public override void OnEnter()
+  {
+    _controller.Rigidbody.isKinematic = true;
+  }
+  public override void OnExit()
+  {
+    _controller.Rigidbody.isKinematic = false;
   }
 }

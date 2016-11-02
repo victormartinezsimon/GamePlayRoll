@@ -15,12 +15,6 @@ public class LadderDetector : MonoBehaviour
 
   void OnTriggerEnter2D(Collider2D coll)
   {
-    Debug.Log("collider enter");
-    if (_controller.LadderTouch)
-    {
-      return;
-    }
-
     if (coll.gameObject.tag == "Ladder")
     {
       _controller.LadderTouch = true;
@@ -28,15 +22,11 @@ public class LadderDetector : MonoBehaviour
   }
   void OnTriggerExit2D(Collider2D coll)
   {
-    Debug.Log("collider exit");
-    if (!_controller.LadderTouch)
-    {
-      return;
-    }
-
+    Debug.Log("on ladder exit");
     if (coll.gameObject.tag == "Ladder")
     {
       _controller.LadderTouch = false;
+      _controller.OnLadderExit();
     }
   }
 }

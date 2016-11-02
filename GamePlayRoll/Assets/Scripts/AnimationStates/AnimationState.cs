@@ -12,4 +12,7 @@ public abstract class AnimationState {
   {
     this._controller = controller;
   }
+
+  public virtual void OnEnter() { }
+  public virtual void OnExit() { }
 }
