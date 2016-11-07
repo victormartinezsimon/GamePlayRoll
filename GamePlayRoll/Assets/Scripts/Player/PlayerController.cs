@@ -40,6 +40,11 @@ public class PlayerController : MonoBehaviour
     get { return _rigidbody; }
   }
 
+  public PlayerData PlayerData
+  {
+    get { return _playerData; }
+  }
+
   void Start()
   {
     _animator = GetComponent<Animator>();
@@ -94,11 +99,11 @@ public class PlayerController : MonoBehaviour
     {
       if (Input.GetButton("Up" + GetPlayerID))
       {
-        transform.position += Vector3.up * _playerData.ForceClimbY * Time.deltaTime;
+        _rigidbody.velocity = new Vector2(0, _playerData.ForceClimbY);
       }
       if (Input.GetButton("Down" + GetPlayerID))
       {
-        transform.position += Vector3.down * _playerData.ForceClimbY * Time.deltaTime;
+        _rigidbody.velocity = new Vector2(0, -_playerData.ForceClimbY);
       }
     }
   }

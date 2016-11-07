@@ -22,7 +22,6 @@ public class LadderDetector : MonoBehaviour
   }
   void OnTriggerExit2D(Collider2D coll)
   {
-    Debug.Log("on ladder exit");
     if (coll.gameObject.tag == "Ladder")
     {
       _controller.LadderTouch = false;

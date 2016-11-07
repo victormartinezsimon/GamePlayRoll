@@ -8,4 +8,5 @@ public class PlayerData : MonoBehaviour {
   public float MaxVelocityX;
   public float ForceJumpY;
   public float ForceClimbY;
+  public float GravityScale;
 }

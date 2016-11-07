@@ -30,10 +30,10 @@ public class AnimationClimbIdle : AnimationState {
   }
   public override void OnEnter()
   {
-    _controller.Rigidbody.isKinematic = true;
+    _controller.Rigidbody.gravityScale = 0;
   }
   public override void OnExit()
   {
-    _controller.Rigidbody.isKinematic = false;
+    _controller.Rigidbody.gravityScale = _controller.PlayerData.GravityScale;
   }
 }
